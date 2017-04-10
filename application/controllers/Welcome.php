@@ -20,6 +20,18 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+		$this->load->model('student_model');
+		$student = $this->student_model->by_id(1);
+		if (empty($student))
+		{
+			$this->student_model->save(array(
+				'full_name' => 'Test',
+				'birth_date' => time()
+			));
+		}
+
+		$students = $this->student_model->get_list();
+		var_dump($students);
 		$this->load->view('welcome_message');
 	}
 }
