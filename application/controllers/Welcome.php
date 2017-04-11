@@ -25,8 +25,8 @@ class Welcome extends CI_Controller {
 		if (empty($student))
 		{
 			$this->student_model->save(array(
-				'full_name' => 'Test',
-				'birth_date' => time()
+				'address' => 'Test',
+				//'birth_date' => time()
 			));
 		}
 
