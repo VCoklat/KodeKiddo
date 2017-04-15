@@ -13,10 +13,10 @@ class Base_Model extends CI_Model{
   }
 
   //fungsi untuk memanggil semua data atau berdasarkan kondisi tertentu
-  public function get_data($table="" ,$condition = "", $size = 20, $index = 0, $order = "")
+  public function get_data($table='' ,$condition = '', $size = 20, $index = 0, $order = '')
   {
     $this->db->cache_on();
-    $qry = $this->db->query("SELECT *");
+    $qry = $this->db->query->select('*');
     $qry = $qry->from($table);
     if (!empty($condition))
       $qry->where($condition);
@@ -26,12 +26,12 @@ class Base_Model extends CI_Model{
 
     if ($size)
       $qry->limit($size, $index);
-    $qry->select("*");
+    $qry->select('*');
     $result = $qry->get();
     $list = $result->array();
     $result->free_result();
 
-    $qry->select("count(*) as total");
+    $qry->select('count(*) as total');
     $result = $qry->get();
     $count = $result->row()->total;
     $result->free_result();

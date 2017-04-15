@@ -45,7 +45,9 @@ class MY_Model extends CI_Model
         $this->join();
         $this->db->where($condition);
         $query = $this->db->get();
+        //testing
         return $query->unbuffered_row();
+        //testing2
     }
 
     protected function select()
@@ -67,7 +69,7 @@ class MY_Model extends CI_Model
         $is_new = true;
         if (!empty($condition))
             $is_new = $this->db->where($condition)->get($this->table)->count_all_result() < 1;
-        
+
         if ($is_new)
         {
             $this->generate_id();

@@ -6,6 +6,6 @@ class Student_Model extends MY_Model
 
     public function by_id($id)
     {
-        return $this->get(array('id' => $id));
+        return $this->get(array('studentid' => $id));
     }
 }
