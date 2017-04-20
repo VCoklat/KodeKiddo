@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -19,13 +17,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | Please see the user guide for complete details:
 |
-|	https://codeigniter.com/user_guide/general/routing.html
+|	http://codeigniter.com/user_guide/general/routing.html
 |
 | -------------------------------------------------------------------------
 | RESERVED ROUTES
 | -------------------------------------------------------------------------
 |
-| There are three reserved routes:
+| There area two reserved routes:
 |
 |	$route['default_controller'] = 'welcome';
 |
@@ -35,20 +33,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 |	$route['404_override'] = 'errors/page_missing';
 |
-| This route will tell the Router which controller/method to use if those
-| provided in the URL cannot be matched to a valid route.
+| This route will tell the Router what URI segments to use if those provided
+| in the URL cannot be matched to a valid route.
 |
-|	$route['translate_uri_dashes'] = FALSE;
-|
-| This is not exactly a route, but allows you to automatically route
-| controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
-| controller and method URI segments.
-|
-| Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+
+$route['default_controller'] = "login";
+$route['404_override'] = 'error';
+
+
+/*********** USER DEFINED ROUTES *******************/
+
+$route['loginMe'] = 'login/loginMe';
+$route['dashboard'] = 'user';
+$route['logout'] = 'user/logout';
+$route['userListing'] = 'user/userListing';
+$route['userListing/(:num)'] = "user/userListing/$1";
+$route['addNew'] = "user/addNew";
+
+$route['addNewUser'] = "user/addNewUser";
+$route['editOld'] = "user/editOld";
+$route['editOld/(:num)'] = "user/editOld/$1";
+$route['editUser'] = "user/editUser";
+$route['deleteUser'] = "user/deleteUser";
+//branch
+$route['branchListing'] = 'branch/branchListing';
+$route['branchListing/(:num)'] = "branch/branchListing/$1";
+$route['addBranch'] = "branch/addBranch";
+$route['addNewBranch'] = "branch/addNewBranch";
+$route['editOldBranch'] = "branch/editOldBranch";
+$route['editOldBranch/(:num)'] = "branch/editOldBranch/$1";
+$route['editBranch'] = "branch/editBranch";
+$route['deleteBranch'] = "branch/deleteBranch";
+//
+//student_model
+$route['studentListing'] = 'student/studentListing';
+$route['studentListing/(:num)'] = "student/studentListing/$1";
+$route['addStudent'] = "student/addStudent";
+$route['addNewStudent'] = "student/addNewStudent";
+$route['editOldStudent'] = "student/editOldStudent";
+$route['editOldStudent/(:num)'] = "student/editOldStudent/$1";
+$route['editStudent'] = "student/editStudent";
+$route['deleteStudent'] = "student/deleteStudent";
+//
+$route['loadChangePass'] = "user/loadChangePass";
+$route['changePassword'] = "user/changePassword";
+$route['pageNotFound'] = "user/pageNotFound";
+$route['checkEmailExists'] = "user/checkEmailExists";
+
+$route['forgotPassword'] = "login/forgotPassword";
+$route['resetPasswordUser'] = "login/resetPasswordUser";
+$route['resetPasswordConfirmUser'] = "login/resetPasswordConfirmUser";
+$route['resetPasswordConfirmUser/(:any)'] = "login/resetPasswordConfirmUser/$1";
+$route['resetPasswordConfirmUser/(:any)/(:any)'] = "login/resetPasswordConfirmUser/$1/$2";
+$route['createPasswordUser'] = "login/createPasswordUser";
+
+/* End of file routes.php */
+/* Location: ./application/config/routes.php */
