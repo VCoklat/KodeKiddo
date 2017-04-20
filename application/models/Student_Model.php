@@ -7,9 +7,6 @@ class Student_Model extends MY_Model
     
     public function by_id($id)
     {
-<<<<<<< HEAD
-        return $this->get(array('studentid' => $id));
-=======
         return $this->get(array('studentId' => $id));
     }
 
@@ -17,6 +14,5 @@ class Student_Model extends MY_Model
     public function get_list_student()
     {
         //return $this->get(array());
->>>>>>> origin/master
     }
 }
