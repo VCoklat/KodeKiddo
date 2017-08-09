@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>KodeKiddo | Admin System Log in</title>
+    <title>KodeKiddo | System Log in</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -36,7 +36,7 @@
             ?>
             <div class="alert alert-danger alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <?php echo $error; ?>
+                <?php echo $error; ?>                    
             </div>
         <?php }
         $success = $this->session->flashdata('success');
@@ -45,10 +45,10 @@
             ?>
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <?php echo $success; ?>
+                <?php echo $success; ?>                    
             </div>
         <?php } ?>
-
+        
         <form action="<?php echo base_url(); ?>loginMe" method="post">
           <div class="form-group has-feedback">
             <input type="email" class="form-control" placeholder="Email" name="email" required />
@@ -59,12 +59,12 @@
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-8">    
               <!-- <div class="checkbox icheck">
                 <label>
                   <input type="checkbox"> Remember Me
                 </label>
-              </div>  -->
+              </div>  -->                       
             </div><!-- /.col -->
             <div class="col-xs-4">
               <input type="submit" class="btn btn-primary btn-block btn-flat" value="Sign In" />
@@ -72,8 +72,8 @@
           </div>
         </form>
 
-        <a href="<?php echo base_url() ?>forgotPassword">Forgot Password</a><br>
-
+        <!--a href="<?php echo base_url() ?>forgotPassword">Forgot Password</a><br-->
+        
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
 

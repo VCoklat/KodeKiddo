@@ -1,24 +1,45 @@
+<?php
+
+
+$name = '';
+
+$mobile = '';
+$branchId = '';
+$address = '';
+$info = '';
+
+if(!empty($branchInfo))
+{
+    foreach ($branchInfo as $uf)
+    {
+        $name = $uf->name_branch;
+		$branchId = $uf->branchId;
+        $mobile = $uf->phone;
+        $info = $uf->info;
+		$address = $uf->address;
+    }
+}
+
+
+?>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
         Branch Management
-        <small>Add</small>
+        <small>Edit Branch</small>
       </h1>
     </section>
     
     <section class="content">
-    <div class="row">
-            <div class="col-xs-12 text-left">
-                <div class="form-group">
-                    <a class="btn btn-primary" href="<?php echo base_url(); ?>branchListing">Branch Listing</a>
-                </div>
-            </div>
-        </div>
+    
         <div class="row">
             <!-- left column -->
             <div class="col-md-8">
-              <!-- general form elements -->         
+              <!-- general form elements -->
+                
+                
                 
                 <div class="box box-primary">
                     <div class="box-header">
@@ -26,40 +47,41 @@
                     </div><!-- /.box-header -->
                     <!-- form start -->
                     
-                    <form role="form" id="addBranch" action="<?php echo base_url() ?>addNewBranch" method="post" role="form">
+                    <form role="form" action="<?php echo base_url() ?>editBranch" method="post" id="editBranch" role="form">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-6">                                
                                     <div class="form-group">
                                         <label for="fname">Branch Name *</label>
-                                        <input type="text" class="form-control required" placeholder="Permata Buana" id="fname" name="fname">
-                                    </div>              
+                                        <input type="text" class="form-control" id="fname" placeholder="Full Name" name="fname" placeholder="Gading Serpong" value="<?php echo $name; ?>" >
+                                        <input type="hidden" value="<?php echo $branchId; ?>" name="branchId" id="branchId" />    
+                                    </div>    
                                 </div>
-                                <div class="col-md-6">
+								<div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="mobile">Branch Phone *</label>
-                                        <input type="text" class="form-control required" placeholder="02154211340" id="mobile" name="mobile" minLength=10>
+                                        <label for="mobile">Phone Number *</label>
+                                        <input type="text" class="form-control required" id="mobile" placeholder="021xxxxxxx" placeholder="Mobile Number" name="mobile" value="<?php echo $mobile; ?>">
                                     </div>
                                 </div>
                             </div>
+                           
 							<div class="row">
                                 <div class="col-md-12">                                
                                     <div class="form-group">
-                                        <label for="fname">Address *</label>
-                                        <input type="text" class="form-control required" id="address" placeholder="Ruko Golden 8, E/19, Jl. Ki Hajar Dewantoro,, Pakulonan Bar., Klp. Dua, Gading Serpong, Jawa Barat 15810" name="address" >
-                                    </div>
-                                    
+                                        <label>Address *</label>
+                                        <input type="text" class="form-control required" placeholder="Jl example" id="address" name="address" value="<?php echo $address; ?>">
+                                    </div>  
                                 </div>
 							</div>
 							<div class="row">
                                 <div class="col-md-12">                                
                                     <div class="form-group">
-                                        <label for="fname">Information</label>
-                                        <input type="text" class="form-control required" placeholder="infodago@kodekiddo.com " id="info" name="info" >
-                                    </div>
-                                    
+                                        <label >Information</label>
+                                        <input type="text" class="form-control required" id="info" placeholder="info@kodekiddo.com" name="info" value="<?php echo $info; ?>">
+                                    </div>  
                                 </div>
 							</div>
+							
                         </div><!-- /.box-body -->
     
                         <div class="box-footer">
@@ -100,6 +122,6 @@
             </div>
         </div>    
     </section>
-    
 </div>
-<script src="<?php echo base_url(); ?>assets/js/addBranch.js" type="text/javascript"></script>
+
+<script src="<?php echo base_url(); ?>assets/js/editBranch.js" type="text/javascript"></script>
