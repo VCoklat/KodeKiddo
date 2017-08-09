@@ -99,6 +99,14 @@ class Branch_model extends CI_Model
         $this->db->update('tbl_schedules', $scheduleInfo);
         return $this->db->affected_rows();
     }
+
+    function listCurrentBranches()
+    {
+        $query = $this->db->query("SELECT branchId FROM tbl_branchs where isDeleted=0");
+        $result = $query->result_array();
+        $query->free_result();
+        return $result;
+    }
 }
 
   

@@ -6,8 +6,7 @@ $(document).ready(function(){
 <?php
 		$con=mysqli_connect("localhost","root","");
 		mysqli_select_db($con,"cias");
-        $query = mysqli_query($con, "SELECT branchId FROM tbl_branchs where isDeleted=0")or die("Error: ".mysqli_error($con));
-		while($hasil=mysqli_fetch_array($query)){
+        foreach($currentBranches as $hasil){
 			$id_cabang= $hasil['branchId'];
 						   ?>
 var a<?php echo $id_cabang ?> = [

@@ -179,6 +179,7 @@ class Student extends BaseController
             {
                 redirect('studentListing');
             }
+            $this->load->model('branch_model');
             $data['jadwal1'] = $this->student_model->getStudentSchedules();
             $data['sources'] = $this->student_model->getStudentSource();
 			$data['branches'] = $this->student_model->getStudentBranch();
@@ -187,6 +188,7 @@ class Student extends BaseController
             $data['absentRecords'] = $this->student_model->absentReport($studentId);
 			$data['statusRecords'] = $this->student_model->statusReport($studentId);
 			$data['expenseRecords'] = $this->student_model->expenseReport($studentId);
+            $data['currentBranches'] = $this->branch_model->listCurrentBranches();
             $this->global['pageTitle'] = 'Edit Student';
             
             $this->loadViews("editStudent", $this->global, $data, NULL);
