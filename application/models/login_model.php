@@ -15,6 +15,7 @@ class Login_model extends CI_Model
         $this->db->join('tbl_roles as Roles','Roles.roleId = BaseTbl.roleId');
         $this->db->where('BaseTbl.email', $email);
         $this->db->where('BaseTbl.isDeleted', 0);
+		$this->db->where('BaseTbl.status', 1);
         $query = $this->db->get();
         
         $user = $query->result();
