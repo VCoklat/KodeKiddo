@@ -2,17 +2,17 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title><?php echo $pageTitle; ?></title>
+    <title>KodeKiddo<?php //echo $pageTitle; ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
     <!-- FontAwesome 4.3.0 -->
     <link href="<?php echo base_url(); ?>assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons 2.0.0 -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="<?php echo base_url(); ?>assets/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
+    <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
     <link href="<?php echo base_url(); ?>assets/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <style>
@@ -26,7 +26,7 @@
     <script type="text/javascript">
         var baseURL = "<?php echo base_url(); ?>";
     </script>
-
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -36,7 +36,7 @@
   </head>
   <body class="skin-blue sidebar-mini">
     <div class="wrapper">
-
+      
       <header class="main-header">
         <!-- Logo -->
         <a href="<?php echo base_url(); ?>" class="logo">
@@ -90,42 +90,71 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
+			<?php
+			if($role == ROLE_ADMIN)
+            {
+            ?>
             <li class="treeview">
               <a href="<?php echo base_url(); ?>dashboard">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
               </a>
             </li>
-
-                        <?php
-        
-            if($role == ROLE_MANAGER)
-            {
-            ?>
+			<?php
+			}
+			?>
             <li class="treeview">
-              <a href="<?php echo base_url(); ?>studentListing">
-                <i class="fa fa-users"></i>
-                <span>List Student</span>
+              <a href="<?php echo base_url(); ?>studentListing" >
+                <i class="fa fa-thumb-tack"></i>
+                <span>Student</span>
+              </a>
+            </li>
+			<li class="treeview">
+              <a href="<?php echo base_url(); ?>absentListing1" >
+                <i class="fa fa-upload"></i>
+                <span>Student Progress</span>
               </a>
             </li>
             <?php
-            }
-
-            if($role == ROLE_ADMIN)
+            if($role == ROLE_ADMIN || $role == ROLE_MANAGER)
             {
             ?>
-            <li class="treeview">
-              <a href="<?php echo base_url(); ?>branchListing">
-                <i class="fa fa-users"></i>
-                <span>Branch</span>
+			 <li class="treeview">
+              <a href="<?php echo base_url(); ?>paymentListing" >
+                <i class="fa fa-money"></i>
+                <span>Payment</span>
               </a>
             </li>
-            <li class="treeview">
+			 <li class="treeview">
+              <a href="<?php echo base_url(); ?>scheduleListing" >
+                <i class="fa fa-ticket"></i>
+                <span>Schedule</span>
+              </a>
+            </li>
+			<li class="treeview">
               <a href="<?php echo base_url(); ?>userListing">
                 <i class="fa fa-users"></i>
                 <span>Users</span>
               </a>
             </li>
-
+			
+            <li class="treeview">
+              <a href="<?php echo base_url(); ?>certificate" >
+                <i class="fa fa-files-o"></i>
+                <span>Certificate</span>
+              </a>
+            </li>
+            <?php
+            }
+            if($role == ROLE_ADMIN)
+            {
+            ?>
+			<li class="treeview">
+              <a href="<?php echo base_url(); ?>branchListing" >
+                <i class="fa fa-plane"></i>
+                <span>Branch</span>
+              </a>
+            </li>
+            
             <?php
             }
             ?>
