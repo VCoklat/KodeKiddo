@@ -22,10 +22,10 @@ class Student_model extends CI_Model
              $this->db->where('BaseTbl.branchId', $branch_data1);
          }
         $query = $this->db->get();
-        
+
         return count($query->result());
     }
-    
+
     /**
      * This function is used to get the student listing count
      * @param string $searchText : This is optional search text
@@ -48,21 +48,21 @@ class Student_model extends CI_Model
              $this->db->where('BaseTbl.branchId', $branch_data1);
          }
         $query = $this->db->get();
-               
-        $result = $query->result();        
+
+        $result = $query->result();
         return $result;
     }
-	
+
 	function getStudentBranch()
     {
         $this->db->select('branchId, name_branch');
         $this->db->from('tbl_branchs');
 		$this->db->where('isDeleted !=', 1);
         $query = $this->db->get();
-        
+
         return $query->result();
     }
-    
+
 	function getStudentStatus()
     {
         $this->db->select('statusId, status');
@@ -70,24 +70,24 @@ class Student_model extends CI_Model
         $query = $this->db->get();
         
         return $query->result();
-    }
+        }
 	
 	function getStudentSource()
     {
         $this->db->select('sourceId, source');
         $this->db->from('tbl_source');
         $query = $this->db->get();
-        
+
         return $query->result();
     }
-	
+
 	function getStudentSchedules()
     {
         $this->db->select('scheduleId, schedule, day');
         $this->db->from('tbl_schedules');
 		$this->db->where('isDeleted !=', 1);
         $query = $this->db->get();
-        
+
         return $query->result();
     }
 	
@@ -111,11 +111,11 @@ class Student_model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->insert('tbl_point_expense', $studentInfo);
-        
+
         $insert_id = $this->db->insert_id();
-        
+
         $this->db->trans_complete();
-        
+
         return $insert_id;
     }
 	
@@ -175,8 +175,8 @@ class Student_model extends CI_Model
 
          $result = $query->result();
          return $result;
-     }
-	 
+    }
+
     /**
      * This function used to get student information by id
      * @param number $studentId : This is student id
@@ -189,10 +189,10 @@ class Student_model extends CI_Model
         $this->db->where('isDeleted', 0);
         $this->db->where('studentId', $studentId);
         $query = $this->db->get();
-        
+
         return $query->result();
     }
-      
+
     /**
      * This function is used to update the student information
      * @param array $studentInfo : This is students updated information
@@ -202,10 +202,10 @@ class Student_model extends CI_Model
     {
         $this->db->where('studentId', $studentId);
         $this->db->update('tbl_students', $studentInfo);
-        
+
         return TRUE;
-    }  
-    
+    }
+
     /**
      * This function is used to delete the student information
      * @param number $studentId : This is student id
@@ -213,12 +213,11 @@ class Student_model extends CI_Model
      */
     function deleteStudent($studentId, $studentInfo)
     {
-        $this->db->where('studentId', $studentId);
+    $this->db->where('studentId', $studentId);
         $this->db->update('tbl_students', $studentInfo);
         
         return $this->db->affected_rows();
     }
 
-}
+    }
 
-  
