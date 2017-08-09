@@ -18,48 +18,56 @@ class User extends BaseController
     {
         parent::__construct();
         $this->load->model('user_model');
-        $this->isLoggedIn();
+        $this->isLoggedIn();   
     }
-
+    
     /**
      * This function used to load the first screen of the user
      */
     public function index()
     {
         $this->global['pageTitle'] = 'Dashboard';
-
+        
         $this->loadViews("dashboard", $this->global, NULL , NULL);
     }
-
+    
     /**
      * This function is used to load the user list
      */
     function userListing()
     {
-        if($this->isAdmin() == TRUE)
+        if($this->isAll() == TRUE)
         {
             $this->loadThis();
         }
         else
         {
             $this->load->model('user_model');
-
-          /*  $searchText = $this->input->post('searchText');
+        
+            $searchText = $this->input->post('searchText');
             $data['searchText'] = $searchText;
-
+			$vendor=$this->vendorId;
+			$con = mysqli_connect('localhost', 'root', '');
+			mysqli_select_db($con,"cias");
+			$no = 1;
+				
+			$query = mysqli_query($con, "SELECT branchId FROM tbl_users WHERE userId= '$vendor' ;")or die("Error: ".mysqli_error($con));
+			while($hasil=mysqli_fetch_array($query)){
+				$branch = $hasil['branchId'];
+			}	
+			//$branch=4;//$this->branch_data;;
+			
             $this->load->library('pagination');
-
-            $count = $this->user_model->userListingCount($searchText);
+            
+            $count = $this->user_model->userListingCount($searchText,$branch);
 
 			$returns = $this->paginationCompress ( "userListing/", $count, 5 );
-
-            $data['userRecords'] = $this->user_model->userListing($searchText, $returns["page"], $returns["segment"]);
-
+            
+            $data['userRecords'] = $this->user_model->userListing($searchText,$branch, $returns["page"], $returns["segment"]);
+            
             $this->global['pageTitle'] = 'User Listing';
-
-            $this->loadViews("users", $this->global, $data, NULL);*/
-            $data['userRecords'] = $this->student_model->get_list_student();
-        		$this->load->view("users", $data);
+            
+            $this->loadViews("users", $this->global, $data, NULL);
         }
     }
 
@@ -68,15 +76,25 @@ class User extends BaseController
      */
     function addNew()
     {
-        if($this->isAdmin() == TRUE)
+        if($this->isAll() == TRUE)
         {
             $this->loadThis();
         }
         else
         {
             $this->load->model('user_model');
+			$vendor=$this->vendorId;
+			$con = mysqli_connect('localhost', 'root', '');
+			mysqli_select_db($con,"cias");
+			$no = 1;
+				
+			$query = mysqli_query($con, "SELECT branchId FROM tbl_users WHERE userId= '$vendor' ;")or die("Error: ".mysqli_error($con));
+			while($hasil=mysqli_fetch_array($query)){
+				$branch = $hasil['branchId'];
+			}		
+			$data['databranch']= $branch;
             $data['roles'] = $this->user_model->getUserRoles();
-            $data['branches'] = $this->user_model->getUserBranches();
+            $data['branch'] = $this->user_model->getUserBranch();
             $this->global['pageTitle'] = 'Add New User';
 
             $this->loadViews("addNew", $this->global, $data, NULL);
@@ -100,28 +118,29 @@ class User extends BaseController
         if(empty($result)){ echo("true"); }
         else { echo("false"); }
     }
-
+    
     /**
      * This function is used to add new user to the system
      */
     function addNewUser()
     {
-        if($this->isAdmin() == TRUE)
+        if($this->isAll() == TRUE)
         {
             $this->loadThis();
         }
         else
         {
             $this->load->library('form_validation');
-
+            
             $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]|xss_clean');
+			$this->form_validation->set_rules('branch','Branch','trim|required|xss_clean');
+			$this->form_validation->set_rules('address','Address','trim|required|xss_clean');
             $this->form_validation->set_rules('email','Email','trim|required|valid_email|xss_clean|max_length[128]');
             $this->form_validation->set_rules('password','Password','required|max_length[20]');
             $this->form_validation->set_rules('cpassword','Confirm Password','trim|required|matches[password]|max_length[20]');
             $this->form_validation->set_rules('role','Role','trim|required|numeric');
-            $this->form_validation->set_rules('branch','Branch','trim|required');
-            $this->form_validation->set_rules('mobile','Mobile Number','required|xss_clean');
-
+            $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]|xss_clean');
+            
             if($this->form_validation->run() == FALSE)
             {
                 $this->addNew();
@@ -132,15 +151,16 @@ class User extends BaseController
                 $email = $this->input->post('email');
                 $password = $this->input->post('password');
                 $roleId = $this->input->post('role');
-                $branch = $this->input->post('branch');
                 $mobile = $this->input->post('mobile');
-
-                $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId,'branch'=>$branch, 'name'=> $name,
+				$branch = $this->input->post('branch');
+				$address = $this->input->post('address');
+                
+                $userInfo = array('email'=>$email,'branchId'=>$branch,'address'=>$address, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'name'=> $name,
                                     'mobile'=>$mobile, 'createdBy'=>$this->vendorId, 'createdDtm'=>date('Y-m-d H:i:sa'));
-
+                
                 $this->load->model('user_model');
                 $result = $this->user_model->addNewUser($userInfo);
-//$result = $this->user_model->save($userInfo,'');
+                
                 if($result > 0)
                 {
                     $this->session->set_flashdata('success', 'New User created successfully');
@@ -149,20 +169,20 @@ class User extends BaseController
                 {
                     $this->session->set_flashdata('error', 'User creation failed');
                 }
-
+                
                 redirect('addNew');
             }
         }
     }
 
-
+    
     /**
      * This function is used load user edit information
      * @param number $userId : Optional : This is user id
      */
     function editOld($userId = NULL)
     {
-        if($this->isAdmin() == TRUE || $userId == 1)
+        if($this->isAll() == TRUE || $userId == 1)
         {
             $this->loadThis();
         }
@@ -172,41 +192,43 @@ class User extends BaseController
             {
                 redirect('userListing');
             }
-
+            
             $data['roles'] = $this->user_model->getUserRoles();
-            $data['branches'] = $this->user_model->getUserBranches();
+			$data['branch'] = $this->user_model->getUserBranch();
             $data['userInfo'] = $this->user_model->getUserInfo($userId);
-
+            
             $this->global['pageTitle'] = 'Edit User';
-
+            
             $this->loadViews("editOld", $this->global, $data, NULL);
         }
     }
-
-
+    
+    
     /**
      * This function is used to edit the user information
      */
     function editUser()
     {
-        if($this->isAdmin() == TRUE)
+        if($this->isAll() == TRUE)
         {
             $this->loadThis();
         }
         else
         {
             $this->load->library('form_validation');
-
+            
             $userId = $this->input->post('userId');
-
+            
             $this->form_validation->set_rules('fname','Full Name','trim|required|max_length[128]|xss_clean');
+			$this->form_validation->set_rules('address','Address','trim|required|xss_clean');
+			$this->form_validation->set_rules('branch','Branch','trim|required|xss_clean');
             $this->form_validation->set_rules('email','Email','trim|required|valid_email|xss_clean|max_length[128]');
             $this->form_validation->set_rules('password','Password','matches[cpassword]|max_length[20]');
             $this->form_validation->set_rules('cpassword','Confirm Password','matches[password]|max_length[20]');
             $this->form_validation->set_rules('role','Role','trim|required|numeric');
-            $this->form_validation->set_rules('branch','Branch','trim|required');
-            $this->form_validation->set_rules('mobile','Mobile Number','required|xss_clean');
-
+			$this->form_validation->set_rules('status','Status','trim|required|numeric');
+            $this->form_validation->set_rules('mobile','Mobile Number','required|min_length[10]|xss_clean');
+            
             if($this->form_validation->run() == FALSE)
             {
                 $this->editOld($userId);
@@ -217,25 +239,26 @@ class User extends BaseController
                 $email = $this->input->post('email');
                 $password = $this->input->post('password');
                 $roleId = $this->input->post('role');
-                $branch = $this->input->post('branch');
+				$status = $this->input->post('status');
                 $mobile = $this->input->post('mobile');
-
+				$branch = $this->input->post('branch');
+				$address = $this->input->post('address');
+                
                 $userInfo = array();
-
+                
                 if(empty($password))
                 {
-                    $userInfo = array('email'=>$email, 'roleId'=>$roleId, 'branch'=>$branch,'name'=>$name,
-                                    'mobile'=>$mobile, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:sa'));
+                    $userInfo = array('email'=>$email, 'roleId'=>$roleId,'status'=>$status,'branchId'=>$branch,'address'=>$address, 'name'=>$name,'mobile'=>$mobile, 'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:sa'));
                 }
                 else
                 {
-                    $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'roleId'=>$roleId, 'branch'=>$branch,
-                        'name'=>ucwords($name), 'mobile'=>$mobile, 'updatedBy'=>$this->vendorId,
+                    $userInfo = array('email'=>$email, 'password'=>getHashedPassword($password), 'branchId'=>$branch,'address'=>$address,'roleId'=>$roleId,
+                        'name'=>ucwords($name), 'mobile'=>$mobile, 'updatedBy'=>$this->vendorId, 
                         'updatedDtm'=>date('Y-m-d H:i:sa'));
                 }
-
+                
                 $result = $this->user_model->editUser($userInfo, $userId);
-
+                
                 if($result == true)
                 {
                     $this->session->set_flashdata('success', 'User updated successfully');
@@ -244,7 +267,7 @@ class User extends BaseController
                 {
                     $this->session->set_flashdata('error', 'User updation failed');
                 }
-
+                
                 redirect('userListing');
             }
         }
@@ -257,7 +280,7 @@ class User extends BaseController
      */
     function deleteUser()
     {
-        if($this->isAdmin() == TRUE)
+        if($this->isAll() == TRUE)
         {
             echo(json_encode(array('status'=>'access')));
         }
@@ -265,36 +288,36 @@ class User extends BaseController
         {
             $userId = $this->input->post('userId');
             $userInfo = array('isDeleted'=>1,'updatedBy'=>$this->vendorId, 'updatedDtm'=>date('Y-m-d H:i:sa'));
-
+            
             $result = $this->user_model->deleteUser($userId, $userInfo);
-
+            
             if ($result > 0) { echo(json_encode(array('status'=>TRUE))); }
             else { echo(json_encode(array('status'=>FALSE))); }
         }
     }
-
+    
     /**
      * This function is used to load the change password screen
      */
     function loadChangePass()
     {
         $this->global['pageTitle'] = 'Change Password';
-
+        
         $this->loadViews("changePassword", $this->global, NULL, NULL);
     }
-
-
+    
+    
     /**
      * This function is used to change the password of the user
      */
     function changePassword()
     {
         $this->load->library('form_validation');
-
+        
         $this->form_validation->set_rules('oldPassword','Old password','required|max_length[20]');
         $this->form_validation->set_rules('newPassword','New password','required|max_length[20]');
         $this->form_validation->set_rules('cNewPassword','Confirm new password','required|matches[newPassword]|max_length[20]');
-
+        
         if($this->form_validation->run() == FALSE)
         {
             $this->loadChangePass();
@@ -303,9 +326,9 @@ class User extends BaseController
         {
             $oldPassword = $this->input->post('oldPassword');
             $newPassword = $this->input->post('newPassword');
-
+            
             $resultPas = $this->user_model->matchOldPassword($this->vendorId, $oldPassword);
-
+            
             if(empty($resultPas))
             {
                 $this->session->set_flashdata('nomatch', 'Your old password not correct');
@@ -315,12 +338,12 @@ class User extends BaseController
             {
                 $usersData = array('password'=>getHashedPassword($newPassword), 'updatedBy'=>$this->vendorId,
                                 'updatedDtm'=>date('Y-m-d H:i:sa'));
-
+                
                 $result = $this->user_model->changePassword($this->vendorId, $usersData);
-
+                
                 if($result > 0) { $this->session->set_flashdata('success', 'Password updation successful'); }
                 else { $this->session->set_flashdata('error', 'Password updation failed'); }
-
+                
                 redirect('loadChangePass');
             }
         }
@@ -329,7 +352,7 @@ class User extends BaseController
     function pageNotFound()
     {
         $this->global['pageTitle'] = '404 - Page Not Found';
-
+        
         $this->loadViews("404", $this->global, NULL, NULL);
     }
 }

@@ -9,7 +9,7 @@ require APPPATH . '/libraries/BaseController.php';
  * @version : 1.1
  * @since : 15 November 2016
  */
-class Student extends BaseController
+class Outstanding extends BaseController
 {
     /**
      * This is default constructor of the class
@@ -17,7 +17,7 @@ class Student extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('student_model');
+        $this->load->model('outstanding_model');
         $this->isLoggedIn();   
     }
     
@@ -34,7 +34,7 @@ class Student extends BaseController
     /**
      * This function is used to load the student list
      */
-    function studentListing()
+    function outstandingListing()
     {
         if($this->isAll() == TRUE)
         {
@@ -42,7 +42,7 @@ class Student extends BaseController
         }
         else
         {
-            $this->load->model('student_model');
+            $this->load->model('outstanding_model');
         
             $searchText = $this->input->post('searchText');
             $data['searchText'] = $searchText;
@@ -57,15 +57,15 @@ class Student extends BaseController
 			}	
             $this->load->library('pagination');
             
-            $count = $this->student_model->studentListingCount($searchText, $branch);
+            $count = $this->outstanding_model->outstandingListingCount($searchText, $branch);
 
-			$returns = $this->paginationCompress ( "studentListing/", $count, 5 );
+			$returns = $this->paginationCompress ( "outstandingListing/", $count, 5 );
             
-            $data['studentRecords'] = $this->student_model->studentListing($searchText, $branch, $returns["page"], $returns["segment"]);
+            $data['studentRecords'] = $this->outstanding_model->outstandingListing($searchText, $branch, $returns["page"], $returns["segment"]);
             
             $this->global['pageTitle'] = 'Student Listing';
             
-            $this->loadViews("students", $this->global, $data, NULL);
+            $this->loadViews("outstandings", $this->global, $data, NULL);
         }
     }
 
