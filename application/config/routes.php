@@ -47,15 +47,37 @@ $route['404_override'] = 'error';
 $route['loginMe'] = 'login/loginMe';
 $route['dashboard'] = 'user';
 $route['logout'] = 'user/logout';
+
 $route['userListing'] = 'user/userListing';
 $route['userListing/(:num)'] = "user/userListing/$1";
 $route['addNew'] = "user/addNew";
-
 $route['addNewUser'] = "user/addNewUser";
 $route['editOld'] = "user/editOld";
 $route['editOld/(:num)'] = "user/editOld/$1";
 $route['editUser'] = "user/editUser";
 $route['deleteUser'] = "user/deleteUser";
+
+//absent
+$route['showreport'] = 'absent/absentListing';
+$route['absentListing'] = 'absent/absentReport';
+$route['absentListing1'] = 'absent/absentReport';
+$route['absentListing/(:num)'] = "absent/absentListing/$1";
+$route['addAbsent'] = "absent/addAbsent";
+$route['addNewAbsent'] = "absent/addNewAbsent";
+$route['editOldAbsent'] = "absent/editOldAbsent";
+$route['editOldAbsent/(:num)'] = "absent/editOldAbsent/$1";
+$route['viewOldAbsent'] = "absent/viewOldAbsent";
+$route['viewOldAbsent/(:num)'] = "absent/viewOldAbsent/$1";
+$route['editAbsent'] = "absent/editAbsent";
+$route['deleteAbsent'] = "absent/deleteAbsent";
+//
+
+//certificate
+$route['generate'] = 'certificate/showCertificate';
+$route['show'] = 'certificate/show';
+$route['certificate'] = 'certificate/certificateListing';
+//
+
 //branch
 $route['branchListing'] = 'branch/branchListing';
 $route['branchListing/(:num)'] = "branch/branchListing/$1";
@@ -66,16 +88,43 @@ $route['editOldBranch/(:num)'] = "branch/editOldBranch/$1";
 $route['editBranch'] = "branch/editBranch";
 $route['deleteBranch'] = "branch/deleteBranch";
 //
-//student_model
+
+//payment
+$route['paymentListing'] = 'payment/paymentListing';
+$route['paymentListing/(:num)'] = "payment/paymentListing/$1";
+$route['addPayment'] = "payment/addPayment";
+$route['addNewPayment'] = "payment/addNewPayment";
+//
+
+//
+//student
+$route['outstandingListing'] = 'outstanding/outstandingListing';
+$route['outstandingListing/(:num)'] = "outstanding/outstandingListing/$1";
+
+//student
 $route['studentListing'] = 'student/studentListing';
 $route['studentListing/(:num)'] = "student/studentListing/$1";
 $route['addStudent'] = "student/addStudent";
 $route['addNewStudent'] = "student/addNewStudent";
 $route['editOldStudent'] = "student/editOldStudent";
 $route['editOldStudent/(:num)'] = "student/editOldStudent/$1";
+$route['expenseStudent'] = "student/expenseStudent";
+$route['expenseStudent/(:num)'] = "student/expenseStudent/$1";
 $route['editStudent'] = "student/editStudent";
 $route['deleteStudent'] = "student/deleteStudent";
 //
+
+//schedule
+$route['scheduleListing'] = 'schedule/scheduleListing';
+$route['scheduleListing/(:num)'] = "schedule/scheduleListing/$1";
+$route['addSchedule'] = "schedule/addSchedule";
+$route['addNewSchedule'] = "schedule/addNewSchedule";
+$route['editOldSchedule'] = "schedule/editOldSchedule";
+$route['editOldSchedule/(:num)'] = "schedule/editOldSchedule/$1";
+$route['editSchedule'] = "schedule/editSchedule";
+$route['deleteSchedule'] = "schedule/deleteSchedule";
+//
+
 $route['loadChangePass'] = "user/loadChangePass";
 $route['changePassword'] = "user/changePassword";
 $route['pageNotFound'] = "user/pageNotFound";

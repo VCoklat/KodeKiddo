@@ -4,21 +4,21 @@
 
 
 jQuery(document).ready(function(){
-
+	
 	jQuery(document).on("click", ".deleteBranch", function(){
 		var branchId = $(this).data("branchid"),
 			hitURL = baseURL + "deleteBranch",
 			currentRow = $(this);
-
+		
 		var confirmation = confirm("Are you sure to delete this branch ?");
-
+		
 		if(confirmation)
 		{
 			jQuery.ajax({
 			type : "POST",
 			dataType : "json",
 			url : hitURL,
-			data : { branchId : branchId }
+			data : { branchId : branchId } 
 			}).done(function(data){
 				console.log(data);
 				currentRow.parents('tr').remove();
@@ -28,9 +28,10 @@ jQuery(document).ready(function(){
 			});
 		}
 	});
-
+	
+	
 	jQuery(document).on("click", ".searchList", function(){
-
+		
 	});
-
+	
 });

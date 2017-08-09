@@ -20,6 +20,8 @@ $(document).ready(function(){
 			password : { required : true },
 			cpassword : {required : true, equalTo: "#password"},
 			mobile : { required : true, digits : true },
+			branch : { required : true},
+			address : { required : true},
 			role : { required : true, selected : true}
 		},
 		messages:{
@@ -28,6 +30,8 @@ $(document).ready(function(){
 			password : { required : "This field is required" },
 			cpassword : {required : "This field is required", equalTo: "Please enter same password" },
 			mobile : { required : "This field is required", digits : "Please enter numbers only" },
+			branch :{ required : "This field is required" },
+			address :{ required : "This field is required" },
 			role : { required : "This field is required", selected : "Please select atleast one option" }			
 		}
 	});
