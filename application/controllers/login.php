@@ -39,7 +39,7 @@ class Login extends CI_Controller
         }
         else
         {
-            redirect('/dashboard');
+            redirect('/absentListing');
         }
     }
     
@@ -78,7 +78,7 @@ class Login extends CI_Controller
                                     
                     $this->session->set_userdata($sessionArray);
                     
-                    redirect('/dashboard');
+                    redirect('/absentListing');
                 }
             }
             else
