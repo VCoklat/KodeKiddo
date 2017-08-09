@@ -50,6 +50,16 @@ class MY_Model extends CI_Model
         //testing2
     }
 
+    public function get_all()
+    {
+        $this->select('*');
+        $this->db->from($this->table);
+        $query = $this->db->get();
+        //testing
+        return $query->result_array();
+        //testing2
+    }
+
     protected function select()
     {
         $this->db->select("{$this->table}.*");
